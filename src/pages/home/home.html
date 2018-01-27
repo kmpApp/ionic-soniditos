@@ -5,14 +5,16 @@
       Mis Soniditos
     </ion-title>
 <!-- boton ordenar -->
-<ion-buttons *ngIf="!orderActive">
+<ion-buttons>
    <button ion-button
+   *ngIf="!orderActive"
    (click)="orderActive = true" >
    Ordenar
    </button>
 </ion-buttons>
-<ion-buttons *ngIf="orderActive">
+<ion-buttons>
    <button ion-button
+   *ngIf="orderActive"
    (click)="orderActive = false" >
    Listo
    </button>
@@ -23,7 +25,9 @@
 
 <ion-content>
 <!-- Refreser -->
-  <ion-refresher (ionRefresh)="doRefresh($event)">
+  <ion-refresher
+  [enabled]=(!orderActive)
+  (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
