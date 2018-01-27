@@ -1,16 +1,36 @@
 <ion-header>
   <ion-navbar>
+<!-- titulo -->
     <ion-title >
       Mis Soniditos
     </ion-title>
+<!-- boton ordenar -->
+<ion-buttons *ngIf="!orderActive">
+   <button ion-button
+   (click)="orderActive = true" >
+   Ordenar
+   </button>
+</ion-buttons>
+<ion-buttons *ngIf="orderActive">
+   <button ion-button
+   (click)="orderActive = false" >
+   Listo
+   </button>
+</ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+<!-- Refreser -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
 <!-- List -->
-<ion-list *ngFor="let a of animales">
-  <ion-item (click) = "reproducir(a)"  >
+<ion-list [reorder]="orderActive" (ionItemReorder)="reorderItems($event)">
+  <ion-item-sliding *ngFor="let a of animales ; let i = index">
+  <ion-item (click) = "reproducir(a)">
     <ion-avatar item-left>
       <img [src]="a.imagen">
     </ion-avatar>
@@ -26,8 +46,14 @@
        <ion-icon style="margin-top:7px;" ios="ios-pause" md="md-pause"></ion-icon>
      </ion-avatar>
 
-
   </ion-item>
+  <ion-item-options side="right">
+      <button ion-button color="danger" (click)="borrarSonido(i)">
+        <ion-icon name="eliminar"></ion-icon>
+        Eliminar
+      </button>
+  </ion-item-options>
+</ion-item-sliding>
 </ion-list>
 
 

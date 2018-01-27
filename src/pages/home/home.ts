@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+//Utilizada para reordenar la lista(array)
+import { reorderArray } from "ionic-angular";
 
 //se importa el archivo
 import { ANIMALES }from '../../data/data.animales';
@@ -17,9 +19,11 @@ export class HomePage {
   animales:Animal[] = [];
   audio = new Audio();
   audioTiempo:any;
+  orderActive:boolean = false;
 
 //constructor
   constructor(){
+    //slice crea una copia del array
     this.animales = ANIMALES.slice(0);
   }
 
@@ -57,9 +61,27 @@ export class HomePage {
            animal.reproduciendo = false;
          }
      }
+   }
 
+//Eliminar sonido
+   private borrarSonido(indx:number){
+     //splice(index desde que eliminara, int cuantos eliminara)
+     this.animales.splice(indx,1);
+   }
+//Refrescar el arreglo
+   private doRefresh(refresher:any){
+
+      setTimeout(() => {
+            this.animales = ANIMALES.slice(0);
+            refresher.complete();
+      }, 2000);
 
    }
+//Reordenar elementos
+private reorderItems(indexsReorder:any){
+  console.log(indexsReorder);
+  this.animales = reorderArray(this.animales, indexsReorder);
+}
 
 
 
